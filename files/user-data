@@ -1,0 +1,31 @@
+#cloud-config
+output:
+  all: '| tee -a /var/log/cloud-init-output.log /dev/tty0'
+
+hostname: "${hostname}"
+locale: "en_US.UTF-8"
+timezone: "${timezone}"
+
+resize_rootfs: noblock
+
+growpart:
+  mode: auto
+  devices:
+   - /dev/sda3
+  ignore_growroot_disabled: false
+
+runcmd:
+  - pvresize /dev/sda3
+  - lvextend -r -l +100%FREE /dev/mapper/ubuntu--vg-ubuntu--lv
+
+users:
+  - name: ${user}
+    primary_group: ${user}
+    sudo: ALL=(ALL) NOPASSWD:ALL
+    groups: adm, cdrom, sudo, dip, plugdev, lxd, docker
+    ssh_import_id: None
+    lock_passwd: true
+    ssh_authorized_keys:
+      - ${authorized_key}
+
+final_message: "The system is finally up, after $UPTIME seconds"
