@@ -6,17 +6,17 @@ resource vsphere_virtual_machine controlplane {
   folder              = vsphere_folder.folder.path
   guest_id            = data.vsphere_virtual_machine.template.guest_id
   latency_sensitivity = var.latency_sensitivity
-  memory              = var.controlplane_memory
+  memory              = lookup(var.controlplane, "memory")
   name                = format("%s-controlplane-%s", local.resource_naming, count.index + 1)
   nested_hv_enabled   = true
-  num_cpus            = var.controlplane_cpus
+  num_cpus            = lookup(var.controlplane, "cpus")
   resource_pool_id    = data.vsphere_resource_pool.pool.id
   scsi_type           = data.vsphere_virtual_machine.template.scsi_type
 
   disk {
     eagerly_scrub    = data.vsphere_virtual_machine.template.disks.0.eagerly_scrub
     label            = "disk0"
-    size             = var.controlplane_disk_size
+    size             = lookup(var.controlplane, "disk_size")
     thin_provisioned = data.vsphere_virtual_machine.template.disks.0.thin_provisioned
   }
 
@@ -45,7 +45,7 @@ resource vsphere_virtual_machine controlplane {
             "version" = 2
             "ethernets" = {
               "ens160" = {
-                "addresses" = [element(var.controlplanes, count.index)]
+                "addresses" = [element(lookup(var.controlplane, "addresses"), count.index)]
                 "gateway4"  = var.gateway_address
                 "nameservers" = {
                   "addresses" = var.dns_servers

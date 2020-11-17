@@ -16,14 +16,8 @@ variable template {}
 variable timezone { default = "UTC" }
 
 # VMs
-variable controlplane_cpus { default = 2 }
-variable controlplane_disk_size { default = 50 }
-variable controlplane_memory { default = 8192 }
-variable controlplanes {}
-variable etcd_cpus { default = 2 }
-variable etcd_disk_size { default = 100 }
-variable etcd_memory { default = 16384 }
-variable etcds {}
+variable controlplane {}
+variable etcd {}
 variable latency_sensitivity { default = "normal" }
 variable vm_folder { type = string }
 variable vm_user { default = "ubuntu" }

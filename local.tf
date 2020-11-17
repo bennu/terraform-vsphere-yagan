@@ -1,6 +1,6 @@
 locals {
-  controlplane_count = length(var.controlplanes)
-  etcd_count         = length(var.etcds)
+  controlplane_count = length(var.controlplane.addresses)
+  etcd_count         = length(var.etcd.addresses)
   resource_naming    = length(random_string.resource_naming) == 0 ? var.resource_naming : random_string.resource_naming.0.result
   worker_count       = length(flatten([var.worker_groups.*.addresses]))
 

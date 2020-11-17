@@ -1,21 +1,22 @@
 resource vsphere_virtual_machine etcd {
+  depends_on          = [vsphere_folder.folder]
   count               = local.etcd_count
   datastore_id        = data.vsphere_datastore.datastore.id
   enable_disk_uuid    = true
   folder              = var.vm_folder
   guest_id            = data.vsphere_virtual_machine.template.guest_id
   latency_sensitivity = var.latency_sensitivity
-  memory              = var.etcd_memory
+  memory              = lookup(var.etcd, "memory")
   name                = format("%s-etcd-%s", local.resource_naming, count.index + 1)
   nested_hv_enabled   = true
-  num_cpus            = var.etcd_cpus
+  num_cpus            = lookup(var.etcd, "cpus")
   resource_pool_id    = data.vsphere_resource_pool.pool.id
   scsi_type           = data.vsphere_virtual_machine.template.scsi_type
 
   disk {
     eagerly_scrub    = data.vsphere_virtual_machine.template.disks.0.eagerly_scrub
     label            = "disk0"
-    size             = var.etcd_disk_size
+    size             = lookup(var.etcd, "disk_size")
     thin_provisioned = data.vsphere_virtual_machine.template.disks.0.thin_provisioned
   }
 
@@ -44,7 +45,7 @@ resource vsphere_virtual_machine etcd {
             "version" = 2
             "ethernets" = {
               "ens160" = {
-                "addresses" = [element(var.etcds, count.index)]
+                "addresses" = [element(lookup(var.etcd, "addresses"), count.index)]
                 "gateway4"  = var.gateway_address
                 "nameservers" = {
                   "addresses" = var.dns_servers
