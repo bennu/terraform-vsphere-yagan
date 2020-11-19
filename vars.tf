@@ -74,6 +74,7 @@ variable dns_provider { default = "coredns" }
 variable drain_grace_period { default = "-1" }
 variable drain_on_upgrade { default = true }
 variable drain_timeout { default = 60 }
+variable enable_cloud_provider { default = true }
 variable enforce_node_allocatable { default = "pods,system-reserved,kube-reserved" }
 variable etcd_backup_interval_hours { default = 8 }
 variable etcd_backup_retention { default = 6 }
@@ -133,6 +134,36 @@ variable upgrade_max_unavailable_controlplane { default = "1" }
 variable upgrade_max_unavailable_worker { default = "10%" }
 variable write_cluster_yaml { default = false }
 variable write_kubeconfig { default = true }
+
+# cloud provider
+variable vsphere_username {
+  description = "vSphere username"
+  default     = ""
+}
+variable vsphere_port {
+  description = "vSphere port"
+  default     = 443
+}
+variable vsphere_insecure_flag {
+  description = "Do not verify tls cert"
+  default     = true
+}
+variable vsphere_password {
+  description = "vSphere password"
+  default     = ""
+}
+variable vsphere_server {
+  description = "vSphere server"
+  default     = ""
+}
+variable vsphere_datacenter {
+  description = "vSphere datacenter"
+  default     = ""
+}
+variable vsphere_cluster_id {
+  description = "vSphere cluster ID"
+  default     = ""
+}
 
 # addons
 variable addons { default = "cert-manager,descheduler,dex,externaldns,gangway,gatekeeper,ingress,klum,kured,metallb" }

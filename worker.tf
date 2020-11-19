@@ -45,6 +45,7 @@ resource vsphere_virtual_machine worker {
             "version" = 2
             "ethernets" = {
               "ens160" = {
+                "link-local" = []  
                 "addresses" = [element(lookup(element(local.workers, count.index), "addresses"), count.index)]
                 "gateway4"  = var.gateway_address
                 "nameservers" = {
@@ -67,7 +68,8 @@ resource null_resource worker_ready {
 
   triggers = {
     ip       = element(vsphere_virtual_machine.worker.*.default_ip_address, count.index)
-    labels   = jsonencode(lookup(element(local.workers, count.index), "labels"))
+    labels   = jsonencode(lookup(element(local.workers, count.index), "labels", {}))
+    taints   = jsonencode(lookup(element(local.workers, count.index), "taints", []))
     nodename = element(vsphere_virtual_machine.worker.*.name, count.index)
     user     = var.vm_user
   }

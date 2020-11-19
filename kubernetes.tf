@@ -4,8 +4,8 @@ module kubernetes {
     null_resource.etcd_ready,
     null_resource.worker_ready,
   ]
-    source  = "bennu/yagan/kubernetes"
-    version = "1.19.3-2"
+
+  source  = "github.com/bennu/terraform-kubernetes-yagan?ref=master"
 
   addon_job_timeout                    = var.addon_job_timeout
   addons_include                       = var.addons_include
@@ -26,6 +26,7 @@ module kubernetes {
   cilium_service_monitor_enabled       = var.cilium_service_monitor_enabled
   cilium_tunnel                        = var.cilium_tunnel
   cilium_wait_bfp                      = var.cilium_wait_bfp
+  cloud_provider                       = local.cloud_provider
   cluster_cidr                         = var.cluster_cidr
   cluster_domain                       = var.cluster_domain
   delete_local_data_on_drain           = var.delete_local_data_on_drain
@@ -94,6 +95,13 @@ module kubernetes {
   system_reserved_cgroup               = var.system_reserved_cgroup
   upgrade_max_unavailable_controlplane = var.upgrade_max_unavailable_controlplane
   upgrade_max_unavailable_worker       = var.upgrade_max_unavailable_worker
+  vsphere_cluster_id                   = local.vsphere_cluster_id
+  vsphere_datacenter                   = var.vsphere_datacenter
+  vsphere_insecure_flag                = var.vsphere_insecure_flag
+  vsphere_password                     = var.vsphere_password
+  vsphere_port                         = var.vsphere_port
+  vsphere_server                       = var.vsphere_server
+  vsphere_username                     = var.vsphere_username
   write_cluster_yaml                   = var.write_cluster_yaml
   write_kubeconfig                     = var.write_kubeconfig
 }

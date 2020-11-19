@@ -45,6 +45,7 @@ resource vsphere_virtual_machine etcd {
             "version" = 2
             "ethernets" = {
               "ens160" = {
+                "link-local" = []
                 "addresses" = [element(lookup(var.etcd, "addresses"), count.index)]
                 "gateway4"  = var.gateway_address
                 "nameservers" = {
@@ -68,6 +69,8 @@ resource null_resource etcd_ready {
   triggers = {
     ip       = element(vsphere_virtual_machine.etcd.*.default_ip_address, count.index)
     nodename = element(vsphere_virtual_machine.etcd.*.name, count.index)
+    labels   = jsonencode(lookup(var.etcd, "labels", {}))
+    taints   = jsonencode(lookup(var.etcd, "taints", []))
     user     = var.vm_user
   }
 

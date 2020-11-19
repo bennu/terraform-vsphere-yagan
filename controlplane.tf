@@ -45,6 +45,7 @@ resource vsphere_virtual_machine controlplane {
             "version" = 2
             "ethernets" = {
               "ens160" = {
+                "link-local" = []
                 "addresses" = [element(lookup(var.controlplane, "addresses"), count.index)]
                 "gateway4"  = var.gateway_address
                 "nameservers" = {
@@ -68,6 +69,8 @@ resource null_resource controlplane_ready {
   triggers = {
     ip       = element(vsphere_virtual_machine.controlplane.*.default_ip_address, count.index)
     nodename = element(vsphere_virtual_machine.controlplane.*.name, count.index)
+    labels   = jsonencode(lookup(var.controlplane, "labels", {}))
+    taints   = jsonencode(lookup(var.controlplane, "taints", []))
     user     = var.vm_user
   }
 
