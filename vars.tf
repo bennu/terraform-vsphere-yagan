@@ -20,6 +20,7 @@ variable controlplane {}
 variable etcd {}
 variable latency_sensitivity { default = "normal" }
 variable vm_folder { type = string }
+variable vm_interface { default = "eth0" }
 variable vm_user { default = "ubuntu" }
 variable worker_groups {
   default = [
@@ -85,7 +86,7 @@ variable etcd_s3_access_key { default = "" }
 variable etcd_s3_bucket_name { default = "" }
 variable etcd_s3_endpoint { default = "" }
 variable etcd_s3_folder { default = "" }
-variable etcd_s3_region { default = "" }
+variable etcd_s3_region { default = "us-east-1" }
 variable etcd_s3_secret_key { default = "" }
 variable eviction_hard { default = "memory.available<15%,nodefs.available<10%,nodefs.inodesFree<5%,imagefs.available<15%,imagefs.inodesFree<20%" }
 variable fail_swap_on { default = true }
@@ -233,20 +234,99 @@ variable gangway_url { default = "" }
 variable grafana_url { default = "" }
 
 # externaldns vars
-variable dns_zone { default = "" }
-variable external_dns_access_key { default = "" }
-variable external_dns_interval { default = "30s" }
-variable external_dns_prefer_cname { default = false }
-variable external_dns_region { default = "us-east-1" }
-variable external_dns_secret_key { default = "" }
-variable zone_id { default = "" }
+variable dns_zone {
+  description = "DNS zone to manage"
+  default     = ""
+}
+variable external_dns_provider { default = "aws" }
+variable external_dns_aws_access_key {
+  description = "AWS access key to manage DNS zone"
+  default     = ""
+}
+variable external_dns_interval {
+  description = "Interval to watch cluster for changes"
+  default     = "30s"
+}
+variable external_dns_aws_region {
+  description = "AWS region to manage DNS zone"
+  default     = "us-east-1"
+}
+variable external_dns_aws_prefer_cname {
+  description = "Prefer CNAME records"
+  default     = false
+}
+variable external_dns_aws_secret_key {
+  description = "AWS secret key to manage DNS zone"
+  default     = ""
+}
+variable external_dns_rfc_host {
+  default = ""
+}
+variable external_dns_rfc_ttl {
+  default = "0s"
+}
+variable external_dns_rfc_port {
+  default = 53
+}
+variable external_dns_rfc_axfr {
+  default = false
+}
+variable external_dns_rfc_alg {
+  default = ""
+}
+variable external_dns_rfc_secret {
+  default = ""
+}
+variable external_dns_rfc_zone {
+  default = ""
+}
+variable external_dns_txt_owner_id {
+  default = ""
+}
+variable external_dns_rfc_key {
+  default = ""
+}
 
 # cert-manager
-variable acme_email { default = "" }
-variable acme_server { default = "production" }
-variable cert_manager_access_key { default = "" }
-variable cert_manager_aws_region { default = "us-east-1" }
-variable cert_manager_secret_key { default = "" }
+variable cert_manager_provider {
+  default = "aws"
+}
+variable acme_email {
+  description = "Email for creating acme account"
+  default     = ""
+}
+variable acme_server {
+  description = "Server to fetch LE certs from"
+  default     = "production"
+}
+variable cert_manager_access_key {
+  description = "AWS access key to manage DNS zone"
+  default     = ""
+}
+variable cert_manager_aws_region {
+  description = "AWS region to manage DNS zone"
+  default     = "us-east-1"
+}
+variable cert_manager_secret_key {
+  description = "secret key to manage DNS zone"
+  default     = ""
+}
+variable zone_id {
+  description = "DNS zone id to manage"
+  default     = ""
+}
+variable cert_manager_zone {
+  default = ""
+}
+variable cert_manager_rfc_nameserver {
+  default = ""
+}
+variable cert_manager_rfc_alg {
+  default = ""
+}
+variable cert_manager_rfc_key_name {
+  default = ""
+}
 
 # metallb
 variable metallb_addresses { default = "" }
