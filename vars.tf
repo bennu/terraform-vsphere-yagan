@@ -238,7 +238,8 @@ variable dns_zone {
   description = "DNS zone to manage"
   default     = ""
 }
-variable external_dns_access_key {
+variable external_dns_provider { default = "aws" }
+variable external_dns_aws_access_key {
   description = "AWS access key to manage DNS zone"
   default     = ""
 }
@@ -246,20 +247,50 @@ variable external_dns_interval {
   description = "Interval to watch cluster for changes"
   default     = "30s"
 }
-variable external_dns_region {
+variable external_dns_aws_region {
   description = "AWS region to manage DNS zone"
   default     = "us-east-1"
 }
-variable external_dns_prefer_cname {
+variable external_dns_aws_prefer_cname {
   description = "Prefer CNAME records"
   default     = false
 }
-variable external_dns_secret_key {
+variable external_dns_aws_secret_key {
   description = "AWS secret key to manage DNS zone"
   default     = ""
 }
+variable external_dns_rfc_host {
+  default = ""
+}
+variable external_dns_rfc_ttl {
+  default = "0s"
+}
+variable external_dns_rfc_port {
+  default = 53
+}
+variable external_dns_rfc_axfr {
+  default = false
+}
+variable external_dns_rfc_alg {
+  default = ""
+}
+variable external_dns_rfc_secret {
+  default = ""
+}
+variable external_dns_rfc_zone {
+  default = ""
+}
+variable external_dns_txt_owner_id {
+  default = ""
+}
+variable external_dns_rfc_key {
+  default = ""
+}
 
 # cert-manager
+variable cert_manager_provider {
+  default = "aws"
+}
 variable acme_email {
   description = "Email for creating acme account"
   default     = ""
@@ -283,6 +314,18 @@ variable cert_manager_secret_key {
 variable zone_id {
   description = "DNS zone id to manage"
   default     = ""
+}
+variable cert_manager_zone {
+  default = ""
+}
+variable cert_manager_rfc_nameserver {
+  default = ""
+}
+variable cert_manager_rfc_alg {
+  default = ""
+}
+variable cert_manager_rfc_key_name {
+  default = ""
 }
 
 # metallb

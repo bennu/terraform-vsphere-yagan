@@ -125,16 +125,19 @@ module kubernetes {
 
 module addons {
   depends_on = [module.kubernetes]
-
-  source     = "bennu/yagan/addons"
-  version    = "1.0.7"
+  source = "github.com/bennu/terraform-addons-yagan.git?ref=dev"
 
   acme_email                             = var.acme_email
   acme_server                            = var.acme_server
   addons                                 = var.addons
   cert_manager_access_key                = var.cert_manager_access_key
   cert_manager_aws_region                = var.cert_manager_aws_region
+  cert_manager_provider                  = var.cert_manager_provider
+  cert_manager_rfc_alg                   = var.cert_manager_rfc_alg
+  cert_manager_rfc_key_name              = var.cert_manager_rfc_key_name
+  cert_manager_rfc_nameserver            = var.cert_manager_rfc_nameserver
   cert_manager_secret_key                = var.cert_manager_secret_key
+  cert_manager_zone                      = var.cert_manager_zone
   descheduler_low_node_utilization       = var.descheduler_low_node_utilization
   descheduler_rm_duplicates              = var.descheduler_rm_duplicates
   descheduler_rm_node_affinity_violation = var.descheduler_rm_node_affinity_violation
@@ -166,11 +169,21 @@ module addons {
   dex_oauth_skip_approval_screen         = var.dex_oauth_skip_approval_screen
   dex_url                                = local.dex_url
   dns_zone                               = var.dns_zone
-  external_dns_access_key                = var.external_dns_access_key
+  external_dns_aws_access_key            = var.external_dns_aws_access_key
+  external_dns_aws_prefer_cname          = var.external_dns_aws_prefer_cname
+  external_dns_aws_region                = var.external_dns_aws_region
+  external_dns_aws_secret_key            = var.external_dns_aws_secret_key
   external_dns_interval                  = var.external_dns_interval
-  external_dns_prefer_cname              = var.external_dns_prefer_cname
-  external_dns_region                    = var.external_dns_region
-  external_dns_secret_key                = var.external_dns_secret_key
+  external_dns_provider                  = var.external_dns_provider
+  external_dns_rfc_alg                   = var.external_dns_rfc_alg
+  external_dns_rfc_axfr                  = var.external_dns_rfc_axfr
+  external_dns_rfc_host                  = var.external_dns_rfc_host
+  external_dns_rfc_key                   = var.external_dns_rfc_key
+  external_dns_rfc_port                  = var.external_dns_rfc_port
+  external_dns_rfc_secret                = var.external_dns_rfc_secret
+  external_dns_rfc_ttl                   = var.external_dns_rfc_ttl
+  external_dns_rfc_zone                  = var.external_dns_rfc_zone
+  external_dns_txt_owner_id              = var.external_dns_txt_owner_id
   gangway_api_server_url                 = module.kubernetes.api_server_url
   gangway_cluster_name                   = module.kubernetes.cluster_name
   gangway_url                            = local.gangway_url
