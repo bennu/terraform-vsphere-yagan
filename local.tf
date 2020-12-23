@@ -13,7 +13,7 @@ locals {
         labels    = lookup(w, "labels", {})
         memory    = w.memory
         name      = w.name
-        taints    = lookup(w, "taints", []) 
+        taints    = lookup(w, "taints", [])
       }
       ]
     ]
