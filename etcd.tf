@@ -1,4 +1,4 @@
-resource vsphere_virtual_machine etcd {
+resource "vsphere_virtual_machine" "etcd" {
   depends_on          = [vsphere_folder.folder, tls_private_key.ssh]
   count               = local.etcd_count
   datastore_id        = data.vsphere_datastore.datastore.id
@@ -61,9 +61,15 @@ resource vsphere_virtual_machine etcd {
     )
     "guestinfo.metadata.encoding" = "gzip+base64"
   }
+
+  lifecycle {
+    ignore_changes = [
+      disk
+    ]
+  }
 }
 
-resource null_resource etcd_ready {
+resource "null_resource" "etcd_ready" {
   # depends_on = [vsphere_virtual_machine.etcd]
   count = length(vsphere_virtual_machine.etcd)
 

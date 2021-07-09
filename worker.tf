@@ -1,4 +1,4 @@
-resource vsphere_virtual_machine worker {
+resource "vsphere_virtual_machine" "worker" {
   depends_on = [
     null_resource.controlplane_ready,
     # null_resource.etcd_ready,
@@ -66,9 +66,15 @@ resource vsphere_virtual_machine worker {
     )
     "guestinfo.metadata.encoding" = "gzip+base64"
   }
+
+  lifecycle {
+    ignore_changes = [
+      disk
+    ]
+  }
 }
 
-resource null_resource worker_ready {
+resource "null_resource" "worker_ready" {
   # depends_on = [
   #   null_resource.controlplane_ready,
   #   null_resource.etcd_ready,

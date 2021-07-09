@@ -1,4 +1,4 @@
-resource vsphere_virtual_machine controlplane {
+resource "vsphere_virtual_machine" "controlplane" {
   depends_on = [
     null_resource.etcd_ready,
     # vsphere_virtual_machine.etcd,
@@ -66,7 +66,7 @@ resource vsphere_virtual_machine controlplane {
   }
 }
 
-resource null_resource controlplane_ready {
+resource "null_resource" "controlplane_ready" {
   # depends_on = [
   #   null_resource.etcd_ready,
   #   vsphere_virtual_machine.controlplane,
