@@ -1,4 +1,4 @@
-resource vsphere_virtual_machine etcd {
+resource "vsphere_virtual_machine" "etcd" {
   depends_on          = [vsphere_folder.folder, tls_private_key.ssh]
   count               = local.etcd_count
   datastore_id        = data.vsphere_datastore.datastore.id
@@ -13,11 +13,14 @@ resource vsphere_virtual_machine etcd {
   resource_pool_id    = data.vsphere_resource_pool.pool.id
   scsi_type           = data.vsphere_virtual_machine.template.scsi_type
 
+# There is an unsolved issue with the provider regarding the disk configuration, so in the meantime we are not passing
+# the value and letting terraform setting by default (true). More info in the next link:
+# https://github.com/hashicorp/terraform-provider-vsphere/issues/1028
   disk {
     eagerly_scrub    = data.vsphere_virtual_machine.template.disks.0.eagerly_scrub
     label            = "disk0"
     size             = lookup(var.etcd, "disk_size")
-    thin_provisioned = data.vsphere_virtual_machine.template.disks.0.thin_provisioned
+    #thin_provisioned = data.vsphere_virtual_machine.template.disks.0.thin_provisioned
   }
 
   network_interface {
@@ -61,9 +64,15 @@ resource vsphere_virtual_machine etcd {
     )
     "guestinfo.metadata.encoding" = "gzip+base64"
   }
+
+  # lifecycle {
+  #   ignore_changes = [
+  #     disk
+  #   ]
+  # }
 }
 
-resource null_resource etcd_ready {
+resource "null_resource" "etcd_ready" {
   # depends_on = [vsphere_virtual_machine.etcd]
   count = length(vsphere_virtual_machine.etcd)
 

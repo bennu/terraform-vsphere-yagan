@@ -1,45 +1,45 @@
 # Resource naming
 
-variable resource_naming {
+variable "resource_naming" {
   description = "An arbitrary name can be prepend to resources."
   default     = ""
 }
 
 # vSphere data
-variable cluster {
+variable "cluster" {
   description = "Cluster name on vSphere"
 }
-variable datacenter {
+variable "datacenter" {
   description = "Datacenter name on vSphere"
 }
-variable datastore {
+variable "datastore" {
   description = "Datastore name on vSphere"
 }
-variable dns_servers {
+variable "dns_servers" {
   description = "Network DNS servers for vms on vSphere"
 }
-variable gateway_address {
+variable "gateway_address" {
   description = "Network Gateway for vms on vSphere"
 }
-variable network {
+variable "network" {
   description = "Network name on vSphere"
 }
-variable resource_pool {
+variable "resource_pool" {
   description = "Resource Pool name on vSphere"
 }
-variable search_domains {
+variable "search_domains" {
   description = "Network DNS searchs for vms on vSphere"
 }
-variable template {
+variable "template" {
   description = "Image template to clone vms on vSphere"
 }
-variable timezone {
+variable "timezone" {
   description = "Timezone for vms on vSphere"
   default     = "UTC"
 }
 
 # VMs
-variable controlplane {
+variable "controlplane" {
   description = "Map about nodes to used for building kubernetes controllers"
   default = {
     addresses = []
@@ -49,7 +49,7 @@ variable controlplane {
     taints    = []
   }
 }
-variable etcd {
+variable "etcd" {
   description = "Map about nodes to used for building kubernetes etcd"
   default = {
     addresses = []
@@ -59,19 +59,19 @@ variable etcd {
     taints    = []
   }
 }
-variable latency_sensitivity {
+variable "latency_sensitivity" {
   description = "Controls the scheduling delay of the vms. Use a higher sensitivity for applications that require lower latency. Can be one of low, normal, medium, or high."
   default     = "normal"
 }
-variable vm_folder {
+variable "vm_folder" {
   description = "The path to the folder to put this vms in, relative to the datacenter that the resource pool is in."
   type        = string
 }
-variable vm_user {
+variable "vm_user" {
   description = "Default username for vms on vSphere"
   default     = "ubuntu"
 }
-variable worker_groups {
+variable "worker_groups" {
   description = "Map about nodes to used for building kubernetes workers"
   default = [
     {
